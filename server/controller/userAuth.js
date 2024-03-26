@@ -1,17 +1,21 @@
-const express = require("express");
-const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const saltRounds = 10;
 
-router.post("/signup", async function (req, res) {
+async function signupForUser(req, res) {
   let success = false;
-  const { username, email, name, password } = req.body;
+  const { name, username, email, password, confirmPassword } = req.body;
 
-  if (!(username && email && name && password)) {
+  if (!(name && username && email && password && confirmPassword)) {
     return res.status(400).json({
       msg: "All fields are required!",
+    });
+  }
+
+  if (password !== confirmPassword) {
+    return res.status(400).json({
+      msg: "Password and Confirm Password do not match, please try again!",
     });
   }
   try {
@@ -35,7 +39,7 @@ router.post("/signup", async function (req, res) {
     const data = {
       user: {
         id: user.id,
-        username,
+        email,
       },
     };
 
@@ -46,9 +50,9 @@ router.post("/signup", async function (req, res) {
     console.error(err.message);
     res.status(500).json("Internal server error!");
   }
-});
+}
 
-router.post("/signin", async (req, res) => {
+async function signinForUser(req, res) {
   const { email, password } = req.body;
   let success = false;
   try {
@@ -72,7 +76,7 @@ router.post("/signin", async (req, res) => {
     const data = {
       user: {
         id: user.id,
-        username: user.username,
+        email: user.email,
       },
     };
 
@@ -85,6 +89,6 @@ router.post("/signin", async (req, res) => {
       msg: "Internal server error!",
     });
   }
-});
+}
 
-module.exports = router;
+module.exports = { signupForUser, signinForUser };
