@@ -14,12 +14,12 @@ const Header = () => {
           <Nevbar></Nevbar>
         </div>
         {toggle ? (
-          <AiOutlineClose
+          <AiOutlineClose //hamburger menu
             onClick={() => setToggle(!toggle)}
             className="text-2xl md:hidden block"
           />
         ) : (
-          <TiThMenu
+          <TiThMenu //cross icon
             onClick={() => setToggle(!toggle)}
             className="text-2xl  md:hidden block "
           />
