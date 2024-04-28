@@ -1,12 +1,16 @@
-import Banner from "./Components/Banner";
-import Header from "./Components/Header";
-// import Signup from "./Components/Signup";
+import ChatBot from "./Components/ChatBot";
+
+// import About from "./Components/About";
+
+// import LandingPage from "./Components/LandingPage";
 function App() {
   return (
     <>
-      {/* <Signup></Signup> */}
-      <Header></Header>
-      <Banner></Banner>
+      {/* <LandingPage></LandingPage> */}
+
+      <ChatBot></ChatBot>
+
+      {/* <About></About> */}
     </>
   );
 }

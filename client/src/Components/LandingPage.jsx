@@ -1,9 +1,10 @@
-import Nevbar from "./Nevbar";
-
+import Banner from "./Banner";
+import Header from "./Header";
 const LandingPage = () => {
   return (
     <>
-      <Nevbar></Nevbar>
+      <Header></Header>
+      <Banner></Banner>
     </>
   );
 };
