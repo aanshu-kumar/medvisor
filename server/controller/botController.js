@@ -1,4 +1,7 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { Chat } = require("../models/Chat.js");
+const User = require("../models/User.js");
+const { default: mongoose } = require("mongoose");
 
 async function queryChatbot(req, res) {
   const userMessage = req.body.message;
@@ -19,9 +22,23 @@ async function queryChatbot(req, res) {
     const prompt = userMessage;
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    const data = await response.json();
-    console.log(data);
-    res.send(data);
+    const data = response.text();
+
+    // save the user message and response to the database
+    const chat = await Chat.create({
+      userMessage: prompt,
+      aiResponse: data,
+    });
+
+    await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        $push: { chatHistory: chat._id },
+      },
+      { new: true }
+    );
+
+    return res.status(200).json(data);
   } catch (err) {
     console.error(err);
     res.status(500).json({
@@ -33,6 +50,7 @@ async function queryChatbot(req, res) {
 // Function to check if the message contains fitness-related keywords
 function containsFitnessKeywords(message) {
   const fitnessKeywords = [
+    "fit",
     "fitness",
     "exercise",
     "workout",

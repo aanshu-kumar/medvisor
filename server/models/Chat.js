@@ -1,12 +1,13 @@
-import mongoose, { Schema } from "mongoose";
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const userChatSchema = new Schema(
   {
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
-    message: {
+    userMessage: {
       type: String,
       required: true,
     },
@@ -17,4 +18,5 @@ const userChatSchema = new Schema(
   { timestamps: true }
 );
 
-export const Chat = mongoose.model("Chat", userChatSchema);
+const Chat = mongoose.model("Chat", userChatSchema);
+module.exports = { Chat };

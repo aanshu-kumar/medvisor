@@ -22,14 +22,11 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    confirmPassword: {
-      type: String,
-      required: true,
-    },
+    chatHistory: [{ type: Schema.Types.ObjectId, ref: "Chat" }],
   },
   { timestamps: true }
 );
 
-const User = mongoose.model("users", userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
