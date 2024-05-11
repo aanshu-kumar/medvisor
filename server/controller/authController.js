@@ -5,19 +5,14 @@ const saltRounds = 10;
 
 async function signupForUser(req, res) {
   let success = false;
-  const { name, username, email, password, confirmPassword } = req.body;
+  const { name, username, email, password } = req.body;
 
-  if (!(name && username && email && password && confirmPassword)) {
+  if (!(name && username && email && password)) {
     return res.status(400).json({
       msg: "All fields are required!",
     });
   }
 
-  if (password !== confirmPassword) {
-    return res.status(400).json({
-      msg: "Password and Confirm Password do not match, please try again!",
-    });
-  }
   try {
     let user = await User.findOne({ $or: [{ email, username }] });
     if (user) {
@@ -48,7 +43,9 @@ async function signupForUser(req, res) {
     res.json({ success, authToken, msg: "User created successfully!" });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json("Internal server error!");
+    res
+      .status(500)
+      .json({ success: success, message: "Internal server error!" });
   }
 }
 
@@ -75,7 +72,7 @@ async function signinForUser(req, res) {
 
     const data = {
       user: {
-        id: user.id,
+        id: user._id,
         email: user.email,
       },
     };
