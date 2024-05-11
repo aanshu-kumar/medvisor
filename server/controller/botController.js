@@ -1,35 +1,26 @@
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
 async function queryChatbot(req, res) {
   const userMessage = req.body.message;
-
-  // Check if the user message contains fitness-related keywords
-  const isFitnessRequest = containsFitnessKeywords(userMessage);
-  if (!isFitnessRequest) {
-    return res.status(400).json({
-      success: false,
-      message:
-        "I am not able to answer your question, please ask me fitness related questions.",
-    });
-  }
-
-  const options = {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: userMessage }],
-      max_tokens: 100,
-    }),
-  };
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
   try {
-    const response = await fetch(
-      "https://api.openai.com/v1/chat/completions",
-      options
-    );
+    // Check if the user message contains fitness-related keywords
+    const isFitnessRequest = containsFitnessKeywords(userMessage);
+    if (!isFitnessRequest) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "I am not able to answer your question, please ask me fitness related questions.",
+      });
+    }
+
+    const prompt = userMessage;
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
     const data = await response.json();
+    console.log(data);
     res.send(data);
   } catch (err) {
     console.error(err);
