@@ -1,7 +1,6 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { Chat } = require("../models/Chat.js");
 const User = require("../models/User.js");
-const { default: mongoose } = require("mongoose");
 
 async function queryChatbot(req, res) {
   const userMessage = req.body.message;
@@ -38,7 +37,7 @@ async function queryChatbot(req, res) {
       { new: true }
     );
 
-    return res.status(200).json(data);
+    return res.status(200).json({ success: true, data: data });
   } catch (err) {
     console.error(err);
     res.status(500).json({
