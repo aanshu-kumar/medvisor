@@ -6,27 +6,53 @@ const ChatBot = () => {
   const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState([
     {
-      user: "You",
-      message: "How are you?",
-    },
-    {
       user: "Medvisor",
-      message: "Hello welcome to Medvisor. How may I help you?",
+      message: "Hello, how can I help you!!",
     },
   ]);
+
   async function handleSubmit(e) {
     e.preventDefault();
     setChatLog([...chatLog, { user: "You", message: `${input}` }]);
-    setInput("");
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/aibot/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzZjUzM2ZmMjk3ZDgzN2NkMTQxZjY0IiwiZW1haWwiOiJhYmNfQGdtYWlsLmNvbSJ9LCJpYXQiOjE3MTU1MDY3NjJ9.--FFiI9aAww5tibENxezDsdq-dySLEdtvaTmB5hdQdU",
+          },
+          body: JSON.stringify({
+            message: input,
+          }),
+        }
+      );
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch AI response");
+      }
+      setChatLog([
+        ...chatLog,
+        { user: "Medvisor", message: responseData.data },
+      ]);
+      setInput("");
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle error gracefully, maybe display an error message to the user
+    }
   }
+
   return (
     <div className="w-full h-screen bg-[#E1F0DA] flex justify-center relative">
       <div className="w-[100%] md:w-[55%] chatbox overflow-auto h-[85%] mt-[8px]">
-        {chatLog.map((message, index) =>
-          message.user == "Medvisor" ? (
-            <ChatlogAI key={index} message={message}></ChatlogAI>
+        {chatLog.map((chat, index) =>
+          chat.user == "Medvisor" ? (
+            <ChatlogAI key={index} message={chat}></ChatlogAI>
           ) : (
-            <Chatlog key={index} message={message} />
+            <Chatlog key={index} message={chat} />
           )
         )}
       </div>
