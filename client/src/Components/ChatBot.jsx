@@ -13,7 +13,7 @@ const ChatBot = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setChatLog([...chatLog, { user: "You", message: `${input}` }]);
+    setChatLog((chatLog) => [...chatLog, { user: "You", message: `${input}` }]);
     try {
       const response = await fetch(
         "http://localhost:3000/api/aibot/completions",
@@ -34,7 +34,7 @@ const ChatBot = () => {
       if (!response.ok) {
         throw new Error("Failed to fetch AI response");
       }
-      setChatLog([
+      setChatLog((chatLog) => [
         ...chatLog,
         { user: "Medvisor", message: responseData.data },
       ]);
