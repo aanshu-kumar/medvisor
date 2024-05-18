@@ -1,16 +1,24 @@
 import ChatBot from "./Components/ChatBot";
 
-// import About from "./Components/About";
+import About from "./Components/About";
 
-// import LandingPage from "./Components/LandingPage";
+import LandingPage from "./Components/LandingPage";
+
+import Login from "./Components/Login";
+
+import SignupForm from "./Components/Signup";
+
 function App() {
   return (
     <>
-      {/* <LandingPage></LandingPage> */}
+      <LandingPage></LandingPage>
 
       <ChatBot></ChatBot>
 
-      {/* <About></About> */}
+      <About></About>
+
+      <SignupForm></SignupForm>
+      <Login></Login>
     </>
   );
 }
