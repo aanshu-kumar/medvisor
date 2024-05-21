@@ -46,8 +46,8 @@ const ChatBot = () => {
   }
 
   return (
-    <div className="w-full h-screen bg-[#E1F0DA] flex justify-center relative">
-      <div className="w-[100%] md:w-[55%] chatbox overflow-auto h-[85%] mt-[8px]">
+    <div className="w-full h-screen bg-[#E1F0DA] flex justify-center relative mt-[20px]">
+      <div className="w-[100%] md:w-[55%] chatbox overflow-auto h-[70%] mt-[8px]">
         {chatLog.map((chat, index) =>
           chat.user == "Medvisor" ? (
             <ChatlogAI key={index} message={chat}></ChatlogAI>

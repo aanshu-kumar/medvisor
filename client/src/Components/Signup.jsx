@@ -17,7 +17,7 @@ const SignupForm = () => {
     e.preventDefault();
     // Perform form submission logic here
     console.log("Form submitted:", formData);
-  }
+  };
 
   return (
     <div className="">
