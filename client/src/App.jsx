@@ -3,6 +3,7 @@ import About from "./Components/About";
 import LandingPage from "./Components/LandingPage";
 import Header from "./Components/Header";
 import Login from "./Components/Login";
+import Signup from "./Components/Signup";
 // import SignupForm from "./Components/Signup";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -24,6 +25,14 @@ function App() {
       element: (
         <>
           <Header /> <Login />
+        </>
+      ),
+    },
+    {
+      path: "/Signup",
+      element: (
+        <>
+          <Header /> <Signup />
         </>
       ),
     },
