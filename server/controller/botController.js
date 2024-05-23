@@ -5,7 +5,10 @@ const User = require("../models/User.js");
 async function queryChatbot(req, res) {
   const userMessage = req.body.message;
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  const model = genAI.getGenerativeModel({
+    model: "gemini-pro",
+    maxOutputTokens: 50,
+  });
 
   try {
     // Check if the user message contains fitness-related keywords
