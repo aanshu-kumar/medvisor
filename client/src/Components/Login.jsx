@@ -1,12 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Link } from "react-router-dom";
 const Login = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    username: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   const handleChange = (e) => {
@@ -14,10 +12,39 @@ const Login = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Perform form submission logic here
-    console.log("Form submitted:", formData);
+    try {
+      const response = await fetch("http://localhost:3000/api/user/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ formData }),
+      });
+      const responseData = await response.json();
+      console.log(responseData);
+      const serializedData = JSON.stringify(responseData);
+      console.log(serializedData);
+
+      const storedData = localStorage.getItem("auth-token");
+
+      // Check if the data exists in local storage
+      if (!storedData) {
+        localStorage.setItem("auth-token", serializedData);
+      }
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch AI response");
+      }
+      setFormData({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (

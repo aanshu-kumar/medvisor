@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import Chatlog from "./Chatlog";
 import ChatlogAI from "./ChatlogAI";
+// import { useNavigate } from "react-router-dom";
 
 const ChatBot = () => {
   const [input, setInput] = useState("");
@@ -10,6 +12,11 @@ const ChatBot = () => {
       message: "Hello, how can I help you!!",
     },
   ]);
+  // const navigate = useNavigate();
+
+  // if (!loggedInUser) {
+  //   navigate("/login");
+  // }
 
   async function handleSubmit(e) {
     e.preventDefault();
