@@ -7,10 +7,8 @@ import Login from "./Components/Login";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ContactUS from "./Components/ContactUS";
-import { useState } from "react";
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState(false);
   const router = createBrowserRouter([
     {
       path: "/",
@@ -25,11 +23,7 @@ function App() {
       path: "/Login",
       element: (
         <>
-          <Header />{" "}
-          <Login
-            setLoggedInUser={setLoggedInUser}
-            loggedInUser={loggedInUser}
-          />
+          <Header /> <Login />
         </>
       ),
     },
@@ -45,7 +39,7 @@ function App() {
       path: "/chatbot",
       element: (
         <>
-          <Header /> <ChatBot loggedInUser={loggedInUser} />
+          <Header /> <ChatBot />
         </>
       ),
     },

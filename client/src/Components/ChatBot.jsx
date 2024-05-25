@@ -2,9 +2,9 @@
 import { useState } from "react";
 import Chatlog from "./Chatlog";
 import ChatlogAI from "./ChatlogAI";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
-const ChatBot = ({ loggedInUser }) => {
+const ChatBot = () => {
   const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState([
     {
@@ -12,11 +12,11 @@ const ChatBot = ({ loggedInUser }) => {
       message: "Hello, how can I help you!!",
     },
   ]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  if (!loggedInUser) {
-    navigate("/login");
-  }
+  // if (!loggedInUser) {
+  //   navigate("/login");
+  // }
 
   async function handleSubmit(e) {
     e.preventDefault();

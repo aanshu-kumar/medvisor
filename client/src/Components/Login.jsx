@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
-const Login = ({ setLoggedInUser }) => {
+const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -38,8 +38,6 @@ const Login = ({ setLoggedInUser }) => {
       if (!response.ok) {
         throw new Error("Failed to fetch AI response");
       }
-
-      setLoggedInUser(true);
       setFormData({
         email: "",
         password: "",
