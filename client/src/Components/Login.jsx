@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,12 +22,15 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ formData }),
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch AI response");
+      }
+
       const responseData = await response.json();
-      console.log(responseData);
-      const serializedData = JSON.stringify(responseData);
-      console.log(serializedData);
+      const serializedData = JSON.stringify(responseData.authToken);
 
       const storedData = localStorage.getItem("auth-token");
 
@@ -35,13 +39,11 @@ const Login = () => {
         localStorage.setItem("auth-token", serializedData);
       }
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch AI response");
-      }
       setFormData({
         email: "",
         password: "",
       });
+      navigate("/chatbot");
     } catch (error) {
       console.error("Error:", error);
     }
