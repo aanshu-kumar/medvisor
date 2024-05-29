@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -7,16 +8,44 @@ const SignupForm = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Perform form submission logic here
-    console.log("Form submitted:", formData);
+    try {
+      const response = await fetch("http://localhost:3000/api/user/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch AI response");
+      }
+
+      const responseData = await response.json();
+      const serializedData = JSON.stringify(responseData.authToken);
+
+      localStorage.setItem("auth-token", serializedData);
+
+      setFormData({
+        name: "",
+        username: "",
+        email: "",
+        password: "",
+      });
+      navigate("/");
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
