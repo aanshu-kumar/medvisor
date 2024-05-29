@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Chatlog from "./Chatlog";
 import ChatlogAI from "./ChatlogAI";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ChatBot = () => {
   const [input, setInput] = useState("");
@@ -12,15 +12,19 @@ const ChatBot = () => {
       message: "Hello, how can I help you!!",
     },
   ]);
-  // const navigate = useNavigate();
-
-  // if (!loggedInUser) {
-  //   navigate("/login");
-  // }
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
     setChatLog((chatLog) => [...chatLog, { user: "You", message: `${input}` }]);
+    const authToken = localStorage.getItem("auth-token");
+    if (!authToken) {
+      alert(
+        "You are not allowed to process this request. Please login with a valid User Id!"
+      );
+      navigate("/login");
+    }
+
     try {
       const response = await fetch(
         "http://localhost:3000/api/aibot/completions",
@@ -28,19 +32,19 @@ const ChatBot = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "auth-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzZjUzM2ZmMjk3ZDgzN2NkMTQxZjY0IiwiZW1haWwiOiJhYmNfQGdtYWlsLmNvbSJ9LCJpYXQiOjE3MTU1MDY3NjJ9.--FFiI9aAww5tibENxezDsdq-dySLEdtvaTmB5hdQdU",
+            "auth-token": authToken,
           },
           body: JSON.stringify({
             message: input,
           }),
         }
       );
-      const responseData = await response.json();
 
       if (!response.ok) {
         throw new Error("Failed to fetch AI response");
       }
+
+      const responseData = await response.json();
       setChatLog((chatLog) => [
         ...chatLog,
         { user: "Medvisor", message: responseData.data },

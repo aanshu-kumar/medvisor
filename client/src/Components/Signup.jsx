@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +8,7 @@ const SignupForm = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,29 +24,25 @@ const SignupForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ formData }),
+        body: JSON.stringify(formData),
       });
-      const responseData = await response.json();
-      console.log(responseData);
-      const serializedData = JSON.stringify(responseData);
-      console.log(serializedData);
-
-      const storedData = localStorage.getItem("auth-token");
-
-      // Check if the data exists in local storage
-      if (!storedData) {
-        localStorage.setItem("auth-token", serializedData);
-      }
 
       if (!response.ok) {
         throw new Error("Failed to fetch AI response");
       }
+
+      const responseData = await response.json();
+      const serializedData = JSON.stringify(responseData.authToken);
+
+      localStorage.setItem("auth-token", serializedData);
+
       setFormData({
         name: "",
         username: "",
         email: "",
         password: "",
       });
+      navigate("/");
     } catch (error) {
       console.error("Error:", error);
     }
