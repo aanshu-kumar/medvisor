@@ -12,16 +12,18 @@ async function queryChatbot(req, res) {
 
   try {
     // Check if the user message contains fitness-related keywords
-    const isFitnessRequest = containsFitnessKeywords(userMessage);
-    if (!isFitnessRequest) {
-      return res.status(400).json({
-        success: false,
-        message:
-          "I am not able to answer your question, please ask me fitness related questions.",
-      });
-    }
+    // const isFitnessRequest = containsFitnessKeywords(userMessage);
+    // if (!isFitnessRequest) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message:
+    //       "I am not able to answer your question, please ask me fitness related questions.",
+    //   });
+    // }
 
-    const prompt = userMessage;
+    const prompt =
+      "Assume your name is Medvisor and you are an expert in Fitness and Healthcare. If asked question on any other topic respond with - 'Sorry, I am not able to answer this question as I am not expert in this domain. Please ask Fitness and Health related questions.', but respond to common behavioural questions. \n" +
+      userMessage;
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const data = response.text();
@@ -54,6 +56,8 @@ function containsFitnessKeywords(message) {
   const fitnessKeywords = [
     "fit",
     "fitness",
+    "Medvisor",
+    "medvisor",
     "exercise",
     "workout",
     "gym",

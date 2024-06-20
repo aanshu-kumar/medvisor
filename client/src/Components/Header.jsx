@@ -6,7 +6,14 @@ import { AiOutlineClose } from "react-icons/ai";
 
 const Header = () => {
   // eslint-disable-next-line no-unused-vars
-  let [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(false);
+  const authToken = localStorage.getItem("auth-token");
+
+  function handleLogout() {
+    localStorage.removeItem("auth-token");
+    window.location.reload();
+  }
+
   return (
     <div className="bg-[#F5EFE6] fixed top-0 right-0 left-0 z-50 block">
       <div className="max-w-[1240]  mx-auto flex justify-between items-center ">
@@ -42,6 +49,22 @@ const Header = () => {
             {" "}
             <li className=" text-slate-500 hover:text-blue-900">Contact</li>
           </Link>
+          {authToken ? (
+            <button
+              type="submit"
+              onClick={handleLogout}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
+            >
+              <Link to="/Login">Login</Link>
+            </button>
+          )}
         </ul>
 
         {/* Responsive menu */}
@@ -62,6 +85,22 @@ const Header = () => {
           <Link to="/ContactUs">
             <li className="p-3">Contact</li>
           </Link>
+          {authToken ? (
+            <button
+              type="submit"
+              onClick={handleLogout}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
+            >
+              <Link to="/Login">Login</Link>
+            </button>
+          )}
         </ul>
       </div>
     </div>
