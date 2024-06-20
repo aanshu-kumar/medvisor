@@ -7,12 +7,13 @@
 1. Download the code from the GitHub repo (https://github.com/AshutoshSingh2021/medvisor).
 
 2. Open the `client` folder in the terminal and install all the required packages. Run the following command  
-   ```node
+   ```javascript
    npm install
    ```
 
 4. Now move to the server folder and install all the packages.  
-   Use this command: ```node
+   Use this command:
+   ```javascript
    npm install
    ```
 
@@ -22,12 +23,12 @@
    - Gemini api key
 
 7. Open a new terminal and navigate to the server folder. Run the command:  
-   ```node
+   ```javascript
    nodemon index.js
    ```
 
 9. Open new terminal and navigate to the client folder in the terminal and run the command:  
-   ```node
+   ```javascript
    npm run dev
    ```
 
