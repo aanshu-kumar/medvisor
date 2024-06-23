@@ -19,13 +19,16 @@ const SignupForm = () => {
     e.preventDefault();
     // Perform form submission logic here
     try {
-      const response = await fetch("http://localhost:3000/api/user/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://api.render.com/deploy/srv-cprrp1aj1k6c738d6bsg?key=Lenhdazw7r4/api/user/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch AI response");
