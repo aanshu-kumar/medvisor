@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const mongoURI = "mongodb://localhost:27017/mdevisor";
+const mongoURI = process.env.MONGO_DB_URI;
 
 const connectToMongo = async () => {
   await mongoose.connect(mongoURI);
