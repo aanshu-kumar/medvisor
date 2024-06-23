@@ -27,7 +27,7 @@ const ChatBot = () => {
 
     try {
       const response = await fetch(
-        "https://api.render.com/deploy/srv-cprrp1aj1k6c738d6bsg?key=Lenhdazw7r4/api/aibot/completions",
+        "https://medvisor-v1.onrender.com/api/aibot/completions",
         {
           method: "POST",
           headers: {
