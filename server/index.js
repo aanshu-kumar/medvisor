@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const authRouter = require("./routes/user");
-const connectToMongo = require("./db");
+const connectToMongo = require("./db.js");
 const userQueryRouter = require("./routes/aibot");
 require("dotenv").config();
 
