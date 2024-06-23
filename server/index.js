@@ -15,6 +15,7 @@ app.use(
   cors({
     origin: "https://medvisor.vercel.app/",
     credentials: true,
+    optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
   })
 );
 app.use(bodyParser.json());
