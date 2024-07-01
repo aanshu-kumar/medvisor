@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 const userChatSchema = new Schema(
   {
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
     userMessage: {
       type: String,
       required: true,
@@ -17,6 +14,8 @@ const userChatSchema = new Schema(
   },
   { timestamps: true }
 );
+
+userChatSchema.plugin(aggregatePaginate);
 
 const Chat = mongoose.model("Chat", userChatSchema);
 module.exports = { Chat };
