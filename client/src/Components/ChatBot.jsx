@@ -1,10 +1,14 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Chatlog from "./Chatlog";
 import ChatlogAI from "./ChatlogAI";
 import { useNavigate } from "react-router-dom";
 
 const ChatBot = () => {
+  const chat_bot_url = "https://medvisor-v1.onrender.com/api/aibot";
+  // const completions_url = "http://localhost:3000/api/aibot/completions";
+  // const get_chat_url = "http://localhost:3000/api/aibot/getchat"
+
   const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState([
     {
@@ -13,6 +17,43 @@ const ChatBot = () => {
     },
   ]);
   const navigate = useNavigate();
+  const chatEndRef = useRef(null);
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatLog]);
+
+  async function getChatData() {
+    try {
+      const authToken = localStorage.getItem("auth-token");
+      const response = await fetch(`${chat_bot_url}/getchat`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": authToken,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch AI response");
+      }
+
+      const responseData = await response.json();
+
+      responseData.data.map((chat) => {
+        setChatLog((chatLog) => [
+          ...chatLog,
+          { user: chat.role, message: chat.content },
+        ]);
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  useEffect(() => {
+    getChatData();
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -26,19 +67,16 @@ const ChatBot = () => {
     }
 
     try {
-      const response = await fetch(
-        "https://medvisor-v1.onrender.com/api/aibot/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": authToken,
-          },
-          body: JSON.stringify({
-            message: input,
-          }),
-        }
-      );
+      const response = await fetch(`${chat_bot_url}/completions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": authToken,
+        },
+        body: JSON.stringify({
+          message: input,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch AI response");
@@ -52,7 +90,6 @@ const ChatBot = () => {
       setInput("");
     } catch (error) {
       console.error("Error:", error);
-      // Handle error gracefully, maybe display an error message to the user
     }
   }
 
@@ -66,6 +103,7 @@ const ChatBot = () => {
             <Chatlog key={index} message={chat} />
           )
         )}
+        <div ref={chatEndRef} />
       </div>
       {/* chat input holder */}
       <form

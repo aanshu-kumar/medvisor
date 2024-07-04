@@ -3,12 +3,13 @@ const { Schema } = mongoose;
 
 const userChatSchema = new Schema(
   {
-    userMessage: {
+    role: {
       type: String,
       required: true,
     },
-    aiResponse: {
+    content: {
       type: String,
+      required: true,
     },
   },
   { timestamps: true }

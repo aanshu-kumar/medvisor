@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const mongoURI = process.env.MONGO_DB_URI;
+// const mongoURI = "mongodb://localhost:27017/mdevisor";
 
 const connectToMongo = async () => {
   try {
