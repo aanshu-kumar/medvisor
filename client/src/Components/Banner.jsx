@@ -25,7 +25,7 @@ const Banner = () => {
             />
           </div>
           <div className="w-full h-[100px] bg-[#F5EFE6] border flex justify-center pt-10">
-            <Link to="/Login">
+            <Link to="/chatbot">
               <div className="h-14 w-[180px] bg-gray-800 rounded text-white flex justify-center pt-4">
                 <p>Get Started {">"}</p>
               </div>

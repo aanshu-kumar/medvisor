@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
+  const signup_url = "https://medvisor-v1.onrender.com/api/user/signup";
+  // const signup_url = "http://localhost:3000/api/user/signup";
+
   const [formData, setFormData] = useState({
     name: "",
     username: "",
@@ -17,18 +20,14 @@ const SignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform form submission logic here
     try {
-      const response = await fetch(
-        "https://medvisor-v1.onrender.com/api/user/signup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(signup_url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch AI response");

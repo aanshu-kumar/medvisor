@@ -20,15 +20,20 @@ async function queryChatbot(req, res) {
     const data = response.text();
 
     // save the user message and response to the database
-    const chat = await Chat.create({
-      userMessage: userMessage,
-      aiResponse: data,
+    const userChatData = await Chat.create({
+      role: "You",
+      content: userMessage,
+    });
+
+    const aiChatData = await Chat.create({
+      role: "Medvisor",
+      content: data,
     });
 
     await User.findByIdAndUpdate(
       req.user.id,
       {
-        $push: { chatHistory: chat._id },
+        $push: { chatHistory: { $each: [userChatData._id, aiChatData._id] } },
       },
       { new: true }
     );
