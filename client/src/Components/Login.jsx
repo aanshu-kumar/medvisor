@@ -2,6 +2,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
+  const signin_url = "https://medvisor-v1.onrender.com/api/user/signin";
+  // const signin_url = "http://localhost:3000/api/user/signin";
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,9 +18,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform form submission logic here
     try {
-      const response = await fetch("http://localhost:3000/api/user/signin", {
+      const response = await fetch(signin_url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +36,6 @@ const Login = () => {
 
       const storedData = localStorage.getItem("auth-token");
 
-      // Check if the data exists in local storage
       if (!storedData) {
         localStorage.setItem("auth-token", serializedData);
       }

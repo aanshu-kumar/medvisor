@@ -23,19 +23,19 @@ const ChatlogAI = ({ message }) => {
       <div
         className={`chatlog ${
           message.user === "Medvisor" ? "flex text-gray-50" : ""
-        }`}
+        } mb-3 mt-6`}
       >
         <div
           className={`chat-message ${
             message.user === "Medvisor"
-              ? "mt-14 bg-[#4f6f52] border-zinc-600 rounded-xl"
-              : "mt-14 border-zinc-600 rounded-xl"
+              ? "mt-8 bg-[#4f6f52] border-zinc-600 rounded-xl"
+              : "mt-8 border-zinc-600 rounded-xl"
           }`}
         >
           <div className="avatar text-sm font-bold px-2 pt-2 ">
             {message.user}
           </div>
-          <div className="message px-2 py-1">{parsedMessage}</div>
+          <div className="message px-2 py-1 pb-2 mb-2">{parsedMessage}</div>
         </div>
       </div>
     </>
